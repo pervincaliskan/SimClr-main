@@ -1,88 +1,119 @@
-SimCLR (Simple Framework for Contrastive Learning) Uygulaması
-Bu proje, Google Research tarafından geliştirilen SimCLR (Simple Framework for Contrastive Learning of Visual Representations) algoritmasının basit bir implementasyonunu içerir.
-Proje Hakkında
-SimCLR, görsel temsillemleri öğrenmek için kendinden denetimli (self-supervised) öğrenme yaklaşımı kullanan bir framework'tür. Bu implementasyon, CIFAR-10 veri seti üzerinde çalışacak şekilde yapılandırılmıştır.
-Ana Dosyalar
+# SimCLR Türkçe Uygulaması
 
-simclr_basic.py: SimCLR algoritmasının temel implementasyonu
-visualize_loss.py: Eğitim sırasında elde edilen loss değerlerini görselleştiren yardımcı script
-loss_history.npy: Eğitim sürecindeki loss değerlerinin kaydı
-simclr_model.h5: Eğitilmiş model dosyası
-loss_plot.png: Loss grafiği görselleştirmesi
+CIFAR-10 veri seti için TensorFlow 2.x kullanılarak geliştirilmiş basit SimCLR implementasyonu.
 
-Kurulum
-Gereksinimler
-bashPython 3.8+
+
+## Genel Bakış
+
+SimCLR (Simple Framework for Contrastive Learning), görsel temsilleri öğrenmek için kendinden denetimli öğrenme kullanan bir framework'tür. Bu proje, algoritmanın basit bir implementasyonunu içerir.
+
+## Özellikler
+
+- CIFAR-10 veri seti eğitimi
+- Contrastive learning ile özellik öğrenimi
+- Loss değerlerinin görselleştirilmesi
+- Eğitilmiş modeli kaydetme
+
+## Gereksinimler
+
+```bash
+Python 3.8+
 TensorFlow 2.x
 NumPy
 Matplotlib
-Ortam Kurulumu
-bash# Gerekli paketlerin yüklenmesi
+```
+
+## Kurulum
+
+```bash
+# TensorFlow ve bağımlılıkları yükle
 pip install tensorflow numpy matplotlib
 
-# TensorFlow için sertifika güncelleme (macOS için)
+# SSL sertifikaları (macOS için)
 /Applications/Python\ 3.8/Install\ Certificates.command
-Kullanım
-SimCLR Modelini Eğitme
-bashpython simclr_basic.py
+```
+
+## Kullanım
+
+### Modeli Eğitmek
+
+```bash
+python simclr_basic.py
+```
+
 Bu komut:
+- CIFAR-10 veri setini indirir
+- Modeli 10 epoch eğitir
+- `simclr_model.h5` olarak kaydeder
+- Loss geçmişini `loss_history.npy` olarak kaydeder
 
-CIFAR-10 veri setini indirir
-SimCLR modelini 10 epoch boyunca eğitir
-Model ağırlıklarını simclr_model.h5 olarak kaydeder
-Loss değerlerini loss_history.npy olarak kaydeder
+### Loss Grafiğini Oluşturmak
 
-Loss Değerlerini Görselleştirme
-bashpython visualize_loss.py
+```bash
+python visualize_loss.py
+```
+
 Bu komut:
+- Kaydedilen loss değerlerini okur
+- Loss grafiğini oluşturur
+- `loss_plot.png` olarak kaydeder
 
-Kaydedilen loss değerlerini yükler
-Loss grafiğini görselleştirir
-Grafiği loss_plot.png olarak kaydeder
-Eğitim sürecine dair istatistikleri yazdırır
+## Dosya Yapısı
 
-Algoritma Özellikleri
-SimCLR Bileşenleri
+```
+├── simclr_basic.py         # Ana eğitim dosyası
+├── visualize_loss.py       # Loss görselleştirme
+├── loss_history.npy        # Loss değerleri
+├── simclr_model.h5         # Eğitilmiş model
+├── loss_plot.png           # Loss grafiği
+└── README.md               # Bu dosya
+```
 
-Veri Augmentasyonu:
+## Algoritma Detayları
 
-Random cropping ve resizing
-Random color distortion
-(Opsiyonel) Gaussian blur
+### Bileşenler
 
+1. **Veri Augmentasyonu**
+   - Random crop ve resize
+   - Random color distortion
 
-Encoder (f):
+2. **Model Mimarisi**
+   - Encoder: ResNet-50
+   - Projection Head: 1-layer MLP
 
-ResNet-50 tabanlı
-Görüntülerden feature vektörleri çıkarır
+3. **Loss Fonksiyonu**
+   - NT-Xent (Normalized Temperature-scaled Cross Entropy)
 
+### Eğitim Parametreleri
 
-Projection Head (g):
+| Parametre | Değer |
+|-----------|-------|
+| Batch Size | 256 |
+| Epochs | 10 |
+| Optimizer | LARS |
+| Learning Rate | 4.8 |
 
-1 katmanlı MLP
-Feature'ları contrastive space'e map eder
-ReLU aktivasyon fonksiyonu kullanır
+## Sonuçlar
 
+- Starting Loss: 3.42
+- Final Loss: 2.31
+- Eğitim Süresi: ~28 dakika
 
-Contrastive Loss:
+## Referans
 
-NT-Xent (Normalized Temperature-scaled Cross Entropy)
-Pozitif çiftleri birbirine yaklaştırır
-Negatif çiftleri birbirinden uzaklaştırır
+Google Research SimCLR makalesi:
+```
+@inproceedings{chen2020simple,
+  title={A Simple Framework for Contrastive Learning of Visual Representations},
+  author={Chen, Ting and Kornblith, Simon and Norouzi, Mohammad and Hinton, Geoffrey},
+  year={2020}
+}
+```
 
+## Lisans
 
+MIT License
 
-Eğitim Parametreleri
+## İletişim
 
-Batch Size: 256
-Epochs: 10
-Optimizer: LARS
-Learning Rate: 4.8 (0.3 × BatchSize/256)
-Temperature: 0.5
-
-Sonuçlar
-Eğitim Süreci
-
-İlk loss değeri: ~3.42
-Son loss değeri: ~2.31
-Training süresi: ~28 dakika (10 epoch)
+Sorularınız için issue açabilirsiniz.
